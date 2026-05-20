@@ -6,29 +6,120 @@ import Projects from "../components/Projects.astro";
 import Experience from "../components/Experience.astro";
 import Education from "../components/Education.astro";
 import Footer from "../components/Footer.astro";
+import CommandPalette from "../components/CommandPalette.astro";
 import Seo from "../components/Seo.astro";
 import "../styles/global.css";
 ---
 
-<html lang="en">
+<html
+  lang="en"
+  data-theme="dark"
+  data-palette="aurora"
+  data-character="default"
+  data-atmosphere="lively"
+>
   <head>
     <Seo />
+    <meta name="theme-color" content="#07080b" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
+    <div id="scroll-progress" class="scroll-progress"></div>
+    <div id="cursor-glow" class="cursor-glow"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-aurora"></div>
+    <div class="bg-noise"></div>
+
     <Header />
-    <section>
+
+    <main id="top">
       <Hero />
       <About />
       <Projects />
       <Experience />
       <Education />
-    </section>
+    </main>
+
     <Footer />
+    <CommandPalette />
+
+    <script is:inline>
+      // ---------- Theme (persist + restore) ----------
+      (function () {
+        try {
+          const t = localStorage.getItem("portfolio-theme") || "dark";
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (_) {}
+      })();
+
+      // ---------- Scroll progress ----------
+      (function () {
+        const bar = document.getElementById("scroll-progress");
+        if (!bar) return;
+        const onScroll = () => {
+          const h = document.documentElement;
+          const max = h.scrollHeight - h.clientHeight;
+          const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+          bar.style.width = p + "%";
+        };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      })();
+
+      // ---------- Cursor glow ----------
+      (function () {
+        const el = document.getElementById("cursor-glow");
+        if (!el) return;
+        let shown = false;
+        window.addEventListener("mousemove", (e) => {
+          el.style.transform =
+            "translate(" + e.clientX + "px, " + e.clientY + "px) translate(-50%, -50%)";
+          if (!shown) {
+            el.classList.add("show");
+            shown = true;
+          }
+        });
+        window.addEventListener("mouseleave", () => {
+          el.classList.remove("show");
+          shown = false;
+        });
+      })();
+
+      // ---------- Reveal on scroll ----------
+      (function () {
+        const els = document.querySelectorAll(".reveal");
+        if (!("IntersectionObserver" in window)) {
+          els.forEach((el) => el.classList.add("in"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -80px 0px" }
+        );
+        els.forEach((el) => io.observe(el));
+      })();
+
+      // ---------- ⌘K / Esc for command palette ----------
+      (function () {
+        window.addEventListener("keydown", (e) => {
+          if ((e.metaKey || e.ctrlKey) && (e.key === "k" || e.key === "K")) {
+            e.preventDefault();
+            window.dispatchEvent(new CustomEvent("cmdk:toggle"));
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

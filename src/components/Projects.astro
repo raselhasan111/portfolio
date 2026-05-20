@@ -1,104 +1,205 @@
 ---
 import { siteConfig } from "../config";
-const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
+
+function visualKind(name: string): "xsolla" | "pihr" | "poptrigg" | "generic" {
+  const n = name.toLowerCase();
+  if (n.includes("xsolla")) return "xsolla";
+  if (n.includes("pi-hr") || n.includes("pihr")) return "pihr";
+  if (n.includes("poptrigg")) return "poptrigg";
+  return "generic";
+}
+
+function slugFor(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+const cats = Array.from(
+  new Set<string>(["all", ...siteConfig.projects.map((p) => p.category)])
+);
+
+const projects = siteConfig.projects.map((p, i) => ({
+  ...p,
+  number: String(i + 1).padStart(2, "0"),
+  visual: visualKind(p.name),
+  slug: slugFor(p.name),
+}));
 ---
 
-{
-  hasProjects && (
-    <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24">
-      <div>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div class="lg:col-span-4">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
-              Projects
-            </h2>
-            <div
-              class="w-[75px] h-[5px] mt-2 rounded-full"
-              style={`background-color: ${siteConfig.accentColor}`}
-            />
-          </div>
+<section id="projects" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="reveal">
+        <span class="h-section">/ projects</span>
+        <h2 class="h-block" style="margin-top: 14px">
+          Selected work, <em style="font-style: normal; color: var(--accent-2)">shipped.</em>
+        </h2>
+      </div>
 
-          <div class="lg:col-span-8">
-            <div class="space-y-8">
-              {siteConfig.projects.map((project, index) => {
-                const Component = project.link ? "a" : "div";
-                const linkProps = project.link
-                  ? {
-                      href: project.link,
-                      target: "_blank",
-                      rel: "noopener noreferrer",
-                    }
-                  : {};
-
-                return (
-                  <div class="group relative">
-                    <Component
-                      {...linkProps}
-                      class={`block relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 ${
-                        project.link
-                          ? "hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1"
-                          : ""
-                      }`}
-                    >
-                      {project.link && (
-                        <div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center bg-gray-900 rounded-full text-white transition-all duration-300 group-hover:bg-gray-700">
-                          <svg
-                            class="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M7 17L17 7M17 7H7M17 7V17"
-                            />
-                          </svg>
-                        </div>
-                      )}
-
-                      <div class="space-y-4">
-                        <div>
-                          <span
-                            class="text-sm font-mono"
-                            style={{ color: siteConfig.accentColor }}
-                          >
-                            0{index + 1}
-                          </span>
-                          <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
-                            {project.name}
-                          </h3>
-                        </div>
-
-                        <p
-                          class={`text-base sm:text-lg text-gray-600 leading-relaxed ${project.link ? "pr-12 sm:pr-14 md:pr-16" : ""}`}
-                        >
-                          {project.description}
-                        </p>
-
-                        {project.skills && project.skills.length > 0 && (
-                          <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
-                            {project.skills.map((skill) => (
-                              <span
-                                class={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-900 text-white rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${
-                                  project.link ? "group-hover:bg-gray-800" : ""
-                                }`}
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </Component>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+      <div class="reveal">
+        <div id="project-filters" class="filter-row" role="tablist">
+          {
+            cats.map((c, i) => (
+              <button
+                class={`filter-chip ${i === 0 ? "active" : ""}`}
+                data-cat={c}
+              >
+                {c}
+              </button>
+            ))
+          }
         </div>
       </div>
-    </section>
-  )
-}
+    </div>
+
+    <div id="projects-list" class="projects-list">
+      {
+        projects.map((p, i) => (
+          <div class="reveal" data-category={p.category}>
+            <article
+              class={`project-card project-card-js ${i % 2 === 1 ? "reverse" : ""}`}
+            >
+              <span class="spotlight" />
+
+              <div class="project-info">
+                <div class="project-head">
+                  <span class="project-num">{p.number}</span>
+                  <span>· {p.year} ·</span>
+                  <span>{p.category}</span>
+                </div>
+                <h3 class="project-title">{p.name}</h3>
+                <span class="project-impact">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" />
+                  </svg>
+                  {p.impact}
+                </span>
+                <p class="project-desc">{p.description}</p>
+                <div class="project-chips">
+                  {p.skills.map((t) => <span class="chip">{t}</span>)}
+                </div>
+                <div class="project-actions">
+                  <a href={p.link} class="btn btn-sm btn-ghost" target="_blank" rel="noopener noreferrer">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 3h6v6" />
+                      <path d="m21 3-9 9" />
+                      <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+                    </svg>
+                    Live preview
+                  </a>
+                  {p.sourceLink && (
+                    <a href={p.sourceLink} class="btn btn-sm btn-ghost" target="_blank" rel="noopener noreferrer">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.9.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.55-3.87-1.55-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.76 2.7 1.25 3.36.95.1-.74.4-1.25.73-1.54-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.3-.51-1.5.11-3.12 0 0 .97-.31 3.18 1.18a11.04 11.04 0 0 1 5.8 0c2.21-1.5 3.18-1.18 3.18-1.18.62 1.62.23 2.82.11 3.12.74.81 1.18 1.84 1.18 3.1 0 4.42-2.7 5.39-5.27 5.67.42.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z" />
+                      </svg>
+                      Source
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              <div class="project-visual">
+                <div class="pv-window-bar">
+                  <div class="pv-dots"><span /><span /><span /></div>
+                  <span class="pv-url">{p.slug}.app</span>
+                </div>
+
+                {p.visual === "xsolla" && (
+                  <div class="visual-xsolla">
+                    <div class="caption">// pdf-generator/render.ts</div>
+                    <div class="doc">
+                      <div class="badge">PDF · v2</div>
+                      <div class="line" />
+                      <div class="line" />
+                      <div class="line" />
+                      <div class="line" />
+                    </div>
+                    <div class="bar">
+                      {[40, 65, 30, 80, 55, 92, 48, 70, 38, 60, 75].map((h) => (
+                        <div style={`height: ${h}%`} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {p.visual === "pihr" && (
+                  <div class="visual-pihr">
+                    <div class="stat-row">
+                      <div class="mini-stat"><strong>504</strong>Companies</div>
+                      <div class="mini-stat"><strong>2.4k</strong>Users</div>
+                      <div class="mini-stat"><strong>99.9%</strong>Uptime</div>
+                    </div>
+                    <div class="table">
+                      <div class="row head"><div>Employee</div><div>Department</div><div>Status</div></div>
+                      <div class="row"><div><span class="avatar" />Aisha Khan</div><div>Engineering</div><div><span class="badge ok">Active</span></div></div>
+                      <div class="row"><div><span class="avatar" style="background: linear-gradient(135deg, oklch(0.78 0.15 60), oklch(0.72 0.16 30))" />Tahmid R.</div><div>Design</div><div><span class="badge ok">Active</span></div></div>
+                      <div class="row"><div><span class="avatar" style="background: linear-gradient(135deg, oklch(0.78 0.16 152), oklch(0.7 0.14 200))" />Nadia I.</div><div>Product</div><div><span class="badge pend">Leave</span></div></div>
+                      <div class="row"><div><span class="avatar" style="background: linear-gradient(135deg, oklch(0.7 0.18 320), oklch(0.7 0.18 280))" />Sumon H.</div><div>Engineering</div><div><span class="badge ok">Active</span></div></div>
+                    </div>
+                  </div>
+                )}
+
+                {p.visual === "poptrigg" && (
+                  <div class="visual-poptrigg">
+                    <div class="store">
+                      <div class="product-grid">
+                        <div /><div /><div /><div /><div /><div /><div /><div /><div />
+                      </div>
+                      <div class="popup">
+                        <span class="x">×</span>
+                        <div class="pop-title">15% off your first order ✨</div>
+                        <div class="pop-body">Code <strong style="color: var(--accent)">WELCOME15</strong> at checkout.</div>
+                        <div class="pop-cta">Claim discount →</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {p.visual === "generic" && (
+                  <div class="visual-generic">
+                    <span class="glyph">{`{ }`}</span>
+                  </div>
+                )}
+              </div>
+            </article>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Filter chips
+  (function () {
+    const chips = document.querySelectorAll("#project-filters .filter-chip");
+    const items = document.querySelectorAll("#projects-list > [data-category]");
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const cat = chip.getAttribute("data-cat");
+        chips.forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        items.forEach((it) => {
+          if (cat === "all" || it.getAttribute("data-category") === cat) {
+            it.style.display = "";
+          } else {
+            it.style.display = "none";
+          }
+        });
+      });
+    });
+  })();
+
+  // Mouse spotlight
+  (function () {
+    document.querySelectorAll(".project-card-js").forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", e.clientX - r.left + "px");
+        card.style.setProperty("--my", e.clientY - r.top + "px");
+      });
+    });
+  })();
+</script>
