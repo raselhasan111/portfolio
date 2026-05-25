@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 ---
 
 <section id="experience" class="section">
@@ -33,7 +34,7 @@ import { siteConfig } from "../config";
                   <span class="exp-date">{x.dateRange}</span>
                 </div>
                 <ul class="exp-list">
-                  {x.bullets.map((b) => <li class="exp-list-item">{b}</li>)}
+                  {x.bullets.map((b) => <RichText as="li" class="exp-list-item" text={b} />)}
                 </ul>
               </div>
             </div>

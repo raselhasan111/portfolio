@@ -1,6 +1,9 @@
 interface SiteConfig {
   name: string;
   title: string;
+  currentLevel: string;
+  currentCompany: string;
+  currentCompanyUrl: string;
   description: string;
   profileImage: string;
   location: string;
@@ -13,6 +16,7 @@ interface SiteConfig {
     twitter?: string;
   };
   resume: string;
+  heroAboutMe: string;
   aboutMe: string;
   stats: { value: string; unit: string; label: string }[];
   skills: string[];
@@ -49,11 +53,14 @@ interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: "Rasel Hasan",
   title: "Software Engineer",
+  currentLevel: "DE-II",
+  currentCompany: "Optimizely",
+  currentCompanyUrl: "https://optimizely.com",
   description:
     "Rasel Hasan — Software Engineer focused on front-end, building scalable products and delightful user experiences with React, Next.js, and TypeScript.",
   profileImage: "/images/profile.jpg",
   location: "Dhaka, Bangladesh",
-  availability: "Currently building frontend experiences",
+  availability: "Building modern web experiences",
   timezone: "GMT+6",
   social: {
     email: "raselhasan.cse11@gmail.com",
@@ -61,8 +68,10 @@ export const siteConfig: SiteConfig = {
     github: "https://github.com/raselhasan111",
   },
   resume: "/files/Rasel_Hasan_Resume_Exp_2.5yrs+.pdf",
+  heroAboutMe:
+    "Software Engineer focused on front-end — shipping production React, Next.js & TypeScript at scale for products used by **500+ companies**.",
   aboutMe:
-    "I'm a Software Engineer with strong focus on front-end development, experienced in building scalable and maintainable web applications. I've a proven track record of delivering high-quality software products using modern technologies like React, Next.js, and TypeScript. I'm passionate about solving complex real-world problems.",
+    "I'm a Software Engineer with strong focus on **front-end development**, experienced in building scalable and maintainable web applications. I've a proven track record of delivering high-quality software products using modern technologies like React, Next.js, and TypeScript. I'm passionate about solving complex real-world problems.",
   stats: [
     { value: "3", unit: "+", label: "Years Experience" },
     { value: "500", unit: "+", label: "Companies Impacted" },
@@ -88,7 +97,7 @@ export const siteConfig: SiteConfig = {
       impact: "Powering real-time gaming PDFs",
       category: "fintech",
       description:
-        "Built a dynamic PDF generation module for real-time, country-specific gaming data, featuring custom visualizations and rich content rendering.",
+        "Built a **dynamic PDF generation module** for real-time, country-specific gaming data, featuring custom visualizations and rich content rendering.",
       link: "https://xsolla.com",
       skills: ["TypeScript", "React", "React-PDF", "CSS"],
     },
@@ -132,7 +141,7 @@ export const siteConfig: SiteConfig = {
       dateRange: "Jul 2023 — Dec 2024",
       logo: "V",
       bullets: [
-        "Built HRM SaaS used by 500+ companies in micro front-end architecture (Pi-HR).",
+        "Built HRM SaaS used by **500+ companies** in micro front-end architecture (Pi-HR).",
         "Boosted PDF rendering by 60% using web workers with React-PDF for Resume Builder.",
         "Built Poptrigg app from scratch with TypeScript, React, Tailwind and Shadcn.",
         "Managed state with Redux Toolkit and integrated Shopify APIs.",
@@ -159,7 +168,7 @@ export const siteConfig: SiteConfig = {
       gpaPct: 89,
       coursework: ["Algorithms", "Web Engineering", "Distributed Systems", "DBMS"],
       achievements: [
-        "Champion at NSU Inter-University Hackathon 2020",
+        "**Champion** at NSU Inter-University Hackathon 2020",
         "ICPC Asia Dhaka Regional Contestant (2020, 2021)",
         "Active member of programming & robotics clubs",
       ],

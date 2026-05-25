@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 
 function visualKind(name: string): "xsolla" | "pihr" | "poptrigg" | "generic" {
   const n = name.toLowerCase();
@@ -74,9 +75,9 @@ const projects = siteConfig.projects.map((p, i) => ({
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" />
                   </svg>
-                  {p.impact}
+                  <RichText text={p.impact} />
                 </span>
-                <p class="project-desc">{p.description}</p>
+                <RichText as="p" class="project-desc" text={p.description} />
                 <div class="project-chips">
                   {p.skills.map((t) => <span class="chip">{t}</span>)}
                 </div>

@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 ---
 
 <section class="hero wrap">
@@ -7,7 +8,7 @@ import { siteConfig } from "../config";
     <div class="reveal" style="--d: 0ms">
       <span class="live-badge">
         <span class="pulse"></span>
-        <span>{siteConfig.availability}</span>
+        <RichText text={siteConfig.availability} />
       </span>
     </div>
 
@@ -23,13 +24,22 @@ import { siteConfig } from "../config";
 
     <div class="reveal" style="--d: 200ms">
       <p class="hero-tag">
-        Building <span class="accent">scalable products</span> and
-        <span class="accent">delightful user experiences</span>.
+        <span class="accent">{siteConfig.title}</span>
+        <span class="hero-tag-level">({siteConfig.currentLevel})</span>
+        <span class="hero-tag-at">@</span>
+        <a
+          class="accent hero-tag-company"
+          href={siteConfig.currentCompanyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {siteConfig.currentCompany}
+        </a>
       </p>
     </div>
 
     <div class="reveal" style="--d: 260ms">
-      <p class="hero-sub">{siteConfig.aboutMe}</p>
+      <RichText as="p" class="hero-sub" text={siteConfig.heroAboutMe} />
     </div>
 
     <div class="reveal" style="--d: 320ms">

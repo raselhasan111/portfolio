@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 
 const edu = siteConfig.education[0];
 ---
@@ -33,7 +34,7 @@ const edu = siteConfig.education[0];
               {edu.achievements.map((a) => (
                 <div class="edu-ach">
                   <span class="ic">★</span>
-                  <span>{a}</span>
+                  <RichText text={a} />
                 </div>
               ))}
             </div>

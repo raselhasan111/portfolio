@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 ---
 
 <section id="about" class="section">
@@ -28,7 +29,7 @@ import { siteConfig } from "../config";
 
       <div>
         <div class="reveal">
-          <p class="about-text">{siteConfig.aboutMe}</p>
+          <RichText as="p" class="about-text" text={siteConfig.aboutMe} />
         </div>
 
         <div class="reveal" style="--d: 80ms">

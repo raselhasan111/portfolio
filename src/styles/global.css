@@ -16,6 +16,7 @@
   --border-hi: rgba(255, 255, 255, 0.12);
   --fg: #e9eaee;
   --fg-2: #c2c4cc;
+  --fg-strong: #ffffff;
   --muted: #7a7d88;
   --muted-2: #5b5e69;
 
@@ -52,6 +53,7 @@ html[data-theme="light"] {
   --border-hi: rgba(10, 12, 20, 0.14);
   --fg: #0d0f14;
   --fg-2: #2a2d36;
+  --fg-strong: #ffffff;
   --muted: #5b5f6b;
   --muted-2: #8a8e98;
   --grid: rgba(0, 0, 0, 0.045);
@@ -368,13 +370,13 @@ main { position: relative; z-index: 1; }
   background: var(--surface-2);
   color: var(--fg);
   cursor: pointer;
-  transition: all .18s ease;
+  transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease, color .18s ease;
   white-space: nowrap;
 }
 .btn:hover {
   background: var(--surface-hi);
   border-color: var(--border-hi);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5);
 }
 .btn-primary {
   background: linear-gradient(180deg, color-mix(in oklch, var(--fg) 100%, transparent) 0%, color-mix(in oklch, var(--fg) 88%, transparent) 100%);
@@ -383,8 +385,8 @@ main { position: relative; z-index: 1; }
   box-shadow: 0 8px 24px -8px color-mix(in oklch, var(--fg) 40%, transparent), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
 }
 .btn-primary:hover {
-  background: var(--fg);
-  transform: translateY(-1px);
+  color: var(--fg-strong);
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.5);
 }
 .btn-ghost {
   background: transparent;
@@ -471,7 +473,17 @@ main { position: relative; z-index: 1; }
   line-height: 1.45;
   letter-spacing: -0.01em;
 }
-.hero-tag .accent { color: var(--fg); }
+.hero-tag .accent {
+  background: linear-gradient(120deg, var(--fg) 0%, color-mix(in oklch, var(--accent-2) 90%, var(--fg)) 50%, color-mix(in oklch, var(--accent-3) 90%, var(--fg)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 400;
+}
+.hero-tag .hero-tag-at { color: var(--muted); margin: 0 6px; }
+.hero-tag .hero-tag-level { color: var(--muted); margin-left: 6px; font-size: 0.85em; }
+.hero-tag .hero-tag-company { text-decoration: none; }
+.hero-tag .hero-tag-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .hero-sub {
   font-size: 15.5px;
