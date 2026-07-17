@@ -1,0 +1,21 @@
+---
+interface Props {
+  text: string;
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+
+const { text, as: Tag = "span", class: className } = Astro.props;
+
+const escape = (s: string) =>
+  s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const html = escape(text).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+---
+
+<Tag class={className} set:html={html} />

@@ -1,367 +1,139 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 ---
 
-<div
-  id="hero"
-  class="relative isolate overflow-hidden bg-white py-24 md:h-screen"
-  style={`--accent-color: ${siteConfig.accentColor}`}
->
-  <!-- Gradient overlay -->
-  <div
-    class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, white 100%)`}
-  >
-  </div>
-  <svg
-    aria-hidden="true"
-    class="absolute inset-0 -z-10 size-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-  >
-    <defs>
-      <pattern
-        x="50%"
-        y={-1}
-        id="0787a7c5-978c-4f66-83c7-11c213f99cb7"
-        width={200}
-        height={200}
-        patternUnits="userSpaceOnUse"
-      >
-        <path d="M.5 200V.5H200" fill="none"></path>
-      </pattern>
-      <pattern
-        id="programming-symbols"
-        x="0"
-        y="0"
-        width="400"
-        height="400"
-        patternUnits="userSpaceOnUse"
-      >
-        <text
-          x="50"
-          y="50"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="24"
-          transform="rotate(-15)">&lt;/&gt;</text
-        >
-        <text
-          x="150"
-          y="100"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="20"
-          transform="rotate(10)">{}</text
-        >
-        <text
-          x="250"
-          y="80"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="18"
-          transform="rotate(-5)">=&gt;</text
-        >
-        <text
-          x="100"
-          y="200"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="22"
-          transform="rotate(15)">[]</text
-        >
-        <text
-          x="300"
-          y="180"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="20"
-          transform="rotate(-10)">&lt;&gt;</text
-        >
-        <text
-          x="200"
-          y="250"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="24"
-          transform="rotate(5)">()</text
-        >
-        <text
-          x="50"
-          y="320"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="18"
-          transform="rotate(-8)">::</text
-        >
-        <text
-          x="350"
-          y="300"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="22"
-          transform="rotate(12)">==</text
-        >
-        <text
-          x="150"
-          y="350"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="20"
-          transform="rotate(-15)">++</text
-        >
-        <text
-          x="250"
-          y="370"
-          fill={siteConfig.accentColor}
-          font-family="monospace"
-          font-size="24"
-          transform="rotate(8)">;</text
-        >
-      </pattern>
-    </defs>
-    <rect
-      fill="url(#programming-symbols)"
-      width="100%"
-      height="100%"
-      opacity="0.2"></rect>
-    <rect
-      fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)"
-      width="100%"
-      height="100%"
-      stroke-width={0}></rect>
-  </svg>
-  <div
-    class="h-full mx-auto p-8 sm:p-12 md:p-24 flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-16"
-  >
-    <div class="flex-1 max-w-4xl">
-      <h2
-        class="text-pretty text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
-      >
-        Hello! 👋
-      </h2>
-      <h1
-        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200"
-      >
-        I'm <span style={{ color: siteConfig.accentColor }}
-          >{siteConfig.name}</span
-        >
+<section class="hero wrap">
+  <div class="hero-left">
+    <div class="reveal" style="--d: 0ms">
+      <span class="live-badge">
+        <span class="pulse"></span>
+        <RichText text={siteConfig.availability} />
+      </span>
+    </div>
+
+    <div class="reveal" style="--d: 60ms">
+      <p class="greet"><span class="wave">👋</span> Hello, I'm</p>
+    </div>
+
+    <div class="reveal" style="--d: 120ms">
+      <h1 class="hero-name">
+        <span class="grad">{siteConfig.name}</span>
       </h1>
-      <p
-        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-gray-600 animate-fade-in animation-delay-400"
-      >
-        {siteConfig.title}
-      </p>
-      <div class="mt-8 sm:mt-10 animate-fade-in animation-delay-600">
+    </div>
+
+    <div class="reveal" style="--d: 200ms">
+      <p class="hero-tag">
+        <span class="accent">{siteConfig.title}</span>
+        <span class="hero-tag-at">@</span>
         <a
-          href={siteConfig.resume}
-          download
-          class="inline-flex items-center gap-2 px-6 py-3 text-sm sm:text-base font-semibold text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent-color)]"
-          style={`background-color: ${siteConfig.accentColor}`}
+          class="accent hero-tag-company"
+          href={siteConfig.currentCompanyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-5 h-5"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
-            <path d="M7 11l5 5l5 -5"></path>
-            <path d="M12 4l0 12"></path>
+          {siteConfig.currentCompany}
+        </a>
+      </p>
+    </div>
+
+    <div class="reveal" style="--d: 260ms">
+      <RichText as="p" class="hero-sub" text={siteConfig.heroAboutMe} />
+    </div>
+
+    <div class="reveal" style="--d: 320ms">
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">
+          View Work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17 17 7" />
+            <path d="M8 7h9v9" />
+          </svg>
+        </a>
+        <a href={siteConfig.resume} class="btn btn-ghost" download>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12" />
+            <path d="m7 10 5 5 5-5" />
+            <path d="M5 21h14" />
           </svg>
           Download Resume
         </a>
+        <a href={`mailto:${siteConfig.social.email}`} class="btn btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+          Contact
+        </a>
       </div>
     </div>
-    {
-      siteConfig.profileImage && (
-        <div class="flex-1 flex justify-center max-w-sm md:max-w-md animate-fade-in animation-delay-400">
-          <div
-            class="relative w-64 h-64 md:w-80 md:h-80 aspect-square overflow-hidden shadow-2xl animate-float"
-            style="border-radius: 56% 44% 71% 29% / 50% 56% 44% 50%;"
-          >
-            <img
-              src={siteConfig.profileImage}
-              alt={siteConfig.name}
-              class="absolute inset-0 h-full w-full object-cover"
-              loading="eager"
-            />
-          </div>
-        </div>
-      )
-    }
+
+    <div class="reveal" style="--d: 380ms">
+      <div class="hero-meta">
+        <span><span class="m-key">~/</span> <span class="m-val">{siteConfig.location}</span></span>
+        <span><span class="m-key">tz</span> <span class="m-val">{siteConfig.timezone}</span></span>
+      </div>
+    </div>
   </div>
-  <div
-    class="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-24 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-gray-700 animate-fade-in animation-delay-600"
-  >
-    {
-      siteConfig.social?.email && (
-        <a
-          href={`mailto:${siteConfig.social.email}`}
-          aria-label="Email"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-            <path d="M3 7l9 6l9 -6" />
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.linkedin && (
-        <a
-          href={siteConfig.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 11v5" />
-              <path d="M8 8v.01" />
-              <path d="M12 16v-5" />
-              <path d="M16 16v-3a2 2 0 1 0 -4 0" />
-              <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.twitter && (
-        <a
-          href={siteConfig.social.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Twitter"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-              <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.github && (
-        <a
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-            </>
-          </svg>
-        </a>
-      )
-    }
+
+  <div class="reveal hero-right" style="--d: 300ms">
+    <div class="orb-stage">
+      <div class="orb-glow"></div>
+      <div class="orb-ring outer"></div>
+      <div class="orb-ring"></div>
+      <div class="orb-image-wrap">
+        <img src={siteConfig.profileImage} alt={siteConfig.name} />
+      </div>
+
+      <div class="tech-chip tc-1" title="React" style="color: #61dafb">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="React">
+          <circle cx="16" cy="16" r="2.2" fill="currentColor" />
+          <g fill="none" stroke="currentColor" stroke-width="1.4">
+            <ellipse cx="16" cy="16" rx="11" ry="4.2" />
+            <ellipse cx="16" cy="16" rx="11" ry="4.2" transform="rotate(60 16 16)" />
+            <ellipse cx="16" cy="16" rx="11" ry="4.2" transform="rotate(120 16 16)" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="tech-chip tc-2" title="Next.js" style="color: var(--fg)">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="Next.js">
+          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.4" />
+          <path d="M10 9.5 V22.5 M22 9.5 V18 M10 9.5 L22 22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" />
+        </svg>
+      </div>
+
+      <div class="tech-chip tc-3" title="TypeScript" style="color: #3178c6">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="TypeScript">
+          <rect x="3" y="3" width="26" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+          <text x="16" y="22" text-anchor="middle" font-size="13" font-family="ui-monospace,monospace" font-weight="700" fill="currentColor">TS</text>
+        </svg>
+      </div>
+
+      <div class="tech-chip tc-4" title="AWS" style="color: #ff9900">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="AWS">
+          <path d="M5 18c2 4 8 6 14 4M27 16c0 4-3 6-7 6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          <text x="16" y="14" text-anchor="middle" font-size="9" font-family="ui-monospace,monospace" font-weight="700" fill="currentColor">AWS</text>
+        </svg>
+      </div>
+
+      <div class="tech-chip tc-5" title="AI" style="color: var(--accent-2)">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="AI">
+          <path d="M16 4 L22 10 L28 16 L22 22 L16 28 L10 22 L4 16 L10 10 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+          <circle cx="16" cy="16" r="3" fill="currentColor" />
+        </svg>
+      </div>
+
+      <div class="tech-chip tc-6" title="Tailwind" style="color: #38bdf8">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="Tailwind">
+          <path d="M8 18c2-4 5-5 8-3 1.5 1 2.5 2 4 2 2 0 3-1 4-3-2 4-5 5-8 3-1.5-1-2.5-2-4-2-2 0-3 1-4 3z" fill="currentColor" />
+          <path d="M4 12c2-4 5-5 8-3 1.5 1 2.5 2 4 2 2 0 3-1 4-3-2 4-5 5-8 3-1.5-1-2.5-2-4-2-2 0-3 1-4 3z" fill="currentColor" opacity="0.6" />
+        </svg>
+      </div>
+
+      <span class="code-symbol" style="top: -8%; left: 40%; font-size: 22px">&lt;/&gt;</span>
+      <span class="code-symbol" style="bottom: -4%; right: 10%; font-size: 28px">{`{}`}</span>
+      <span class="code-symbol" style="top: 30%; right: -12%; font-size: 18px">()</span>
+    </div>
   </div>
-</div>
-
-<style>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 0.2s;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 0.4s;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 0.6s;
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-</style>
+</section>

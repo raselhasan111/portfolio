@@ -1,37 +1,66 @@
 ---
 import { siteConfig } from "../config";
+import RichText from "./RichText.astro";
 ---
 
-<section id="about" class="p-8 sm:p-12 md:p-16 lg:p-24">
-  <div>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-      <div class="lg:col-span-4">
-        <h2
-          class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900"
-        >
-          About Me
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="reveal">
+        <span class="h-section">/ about</span>
+        <h2 class="h-block" style="margin-top: 14px">
+          Engineer with <em style="font-style: normal; color: var(--accent-3)">frontend</em> obsession.
         </h2>
-        <div
-          class="w-[75px] h-[5px] mt-2 rounded-full"
-          style={`background-color: ${siteConfig.accentColor}`}
-        >
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="about-side">
+          <span class="mono muted label">Bio · v3.2</span>
+          <div class="term">
+            <div class="line"><span class="prompt">$</span> whoami</div>
+            <div class="line out">→ {siteConfig.title} · {siteConfig.location}</div>
+            <div class="line"><span class="prompt">$</span> cat focus.txt</div>
+            <div class="line out">→ React · Next.js · TS<br />→ micro-frontends · perf · DX</div>
+          </div>
         </div>
       </div>
 
-      <div class="lg:col-span-8 space-y-8">
-        <p class="text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600">
-          {siteConfig.aboutMe}
-        </p>
+      <div>
+        <div class="reveal">
+          <RichText as="p" class="about-text" text={siteConfig.aboutMe} />
+        </div>
 
-        <div class="pt-4">
-          <div class="flex flex-wrap gap-3">
+        <div class="reveal" style="--d: 80ms">
+          <div class="stats">
             {
-              siteConfig.skills.map((skill) => (
-                <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium hover:bg-gray-200 transition-colors duration-200">
-                  {skill}
-                </span>
+              siteConfig.stats.map((s) => (
+                <div class="stat">
+                  <div class="stat-val">
+                    {s.value}
+                    <span class="unit">{s.unit}</span>
+                  </div>
+                  <div class="stat-label">{s.label}</div>
+                </div>
               ))
             }
+          </div>
+        </div>
+
+        <div class="reveal" style="--d: 160ms">
+          <div>
+            <div class="mono muted stack-eyebrow">/ stack</div>
+            <div class="pills">
+              {
+                siteConfig.skills.map((t) => (
+                  <span class="pill">
+                    <span class="dot" />
+                    {t}
+                  </span>
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>
