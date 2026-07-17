@@ -1,78 +1,142 @@
 ---
 import { siteConfig } from "../config";
 
-const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
-const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
-const hasEducation = siteConfig.education && siteConfig.education.length > 0;
+const firstName = siteConfig.name.split(" ")[0];
+
+const sections = [
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  { id: "experience", label: "Experience" },
+  { id: "education", label: "Education" },
+];
 ---
 
-<header
-  id="header"
-  class="fixed top-0 left-0 right-0 z-50 hidden md:block transition-all duration-300"
->
-  <nav class="max-w-7xl mx-auto px-8 py-4">
-    <ul class="flex items-center gap-8 justify-center">
-      <li>
-        <a
-          href="#about"
-          class="text-gray-700 hover:text-black transition-colors font-medium"
-        >
-          About
-        </a>
-      </li>
+<div class="nav-shell">
+  <nav id="nav" class="nav">
+    <a class="nav-logo" href="#top" aria-label="Home">
+      <span class="lt">&lt;</span><span class="name">{firstName}</span><span class="lt">/&gt;</span>
+    </a>
+
+    <div class="nav-links">
       {
-        hasProjects && (
-          <li>
-            <a
-              href="#projects"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Projects
-            </a>
-          </li>
-        )
+        sections.map((s) => (
+          <a href={`#${s.id}`} class="nav-link" data-section={s.id}>
+            <span class="dot" />
+            {s.label}
+          </a>
+        ))
       }
-      {
-        hasExperience && (
-          <li>
-            <a
-              href="#experience"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Experience
-            </a>
-          </li>
-        )
-      }
-      {
-        hasEducation && (
-          <li>
-            <a
-              href="#education"
-              class="text-gray-700 hover:text-black transition-colors font-medium"
-            >
-              Education
-            </a>
-          </li>
-        )
-      }
-    </ul>
+    </div>
+
+    <div class="nav-end">
+      <button id="cmd-open" class="cmd-btn" aria-label="Command palette">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+        <span>Search</span>
+        <span class="kbd">⌘K</span>
+      </button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+        <svg id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+        <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+        </svg>
+      </button>
+      <button id="burger-open" class="icon-btn nav-burger" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+    </div>
   </nav>
-</header>
+</div>
 
-<script>
-  window.addEventListener("scroll", () => {
-    const header = document.getElementById("header");
-    if (window.scrollY > 100) {
-      header?.classList.add("bg-white/80", "backdrop-blur-sm");
-    } else {
-      header?.classList.remove("bg-white/80", "backdrop-blur-sm");
-    }
-  });
+<div id="mobile-menu" class="mobile-menu">
+  <button id="burger-close" class="icon-btn" aria-label="Close menu" style="position:absolute;top:22px;right:22px">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 6 18 18M18 6 6 18" />
+    </svg>
+  </button>
+  {sections.map((s) => <a href={`#${s.id}`} class="mm-link">{s.label}</a>)}
+  <a href="#contact" class="mm-link" style="color: var(--accent-2)">Contact →</a>
+</div>
+
+<script is:inline>
+  (function () {
+    const nav = document.getElementById("nav");
+    const onScroll = () => {
+      if (!nav) return;
+      if (window.scrollY > 24) nav.classList.add("scrolled");
+      else nav.classList.remove("scrolled");
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  })();
+
+  // Active section scroll-spy
+  (function () {
+    const ids = ["about", "projects", "experience", "education"];
+    const links = document.querySelectorAll(".nav-link");
+    const onScroll = () => {
+      const y = window.scrollY + window.innerHeight * 0.35;
+      let cur = "";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.offsetTop <= y) cur = id;
+      }
+      links.forEach((a) => {
+        if (a.getAttribute("data-section") === cur) a.classList.add("active");
+        else a.classList.remove("active");
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  })();
+
+  // Theme toggle
+  (function () {
+    const btn = document.getElementById("theme-toggle");
+    const iconDark = document.getElementById("theme-icon-dark");
+    const iconLight = document.getElementById("theme-icon-light");
+    const apply = (t) => {
+      document.documentElement.setAttribute("data-theme", t);
+      try { localStorage.setItem("portfolio-theme", t); } catch (_) {}
+      if (t === "dark") {
+        iconDark.style.display = "";
+        iconLight.style.display = "none";
+      } else {
+        iconDark.style.display = "none";
+        iconLight.style.display = "";
+      }
+    };
+    apply(document.documentElement.getAttribute("data-theme") || "dark");
+    btn?.addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme") || "dark";
+      apply(cur === "dark" ? "light" : "dark");
+    });
+  })();
+
+  // Mobile menu
+  (function () {
+    const menu = document.getElementById("mobile-menu");
+    const open = document.getElementById("burger-open");
+    const close = document.getElementById("burger-close");
+    open?.addEventListener("click", () => menu?.classList.add("open"));
+    close?.addEventListener("click", () => menu?.classList.remove("open"));
+    document.querySelectorAll(".mm-link").forEach((a) => {
+      a.addEventListener("click", () => menu?.classList.remove("open"));
+    });
+  })();
+
+  // Command palette trigger
+  (function () {
+    document.getElementById("cmd-open")?.addEventListener("click", () => {
+      window.dispatchEvent(new CustomEvent("cmdk:toggle"));
+    });
+  })();
 </script>
-
-<style>
-  html {
-    scroll-behavior: smooth;
-  }
-</style>
