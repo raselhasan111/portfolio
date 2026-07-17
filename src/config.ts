@@ -1,7 +1,6 @@
 interface SiteConfig {
   name: string;
   title: string;
-  currentLevel: string;
   currentCompany: string;
   currentCompanyUrl: string;
   description: string;
@@ -34,7 +33,6 @@ interface SiteConfig {
     company: string;
     title: string;
     dateRange: string;
-    logo: string;
     current?: boolean;
     bullets: string[];
   }[];
@@ -53,7 +51,6 @@ interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: "Rasel Hasan",
   title: "Software Engineer",
-  currentLevel: "DE-II",
   currentCompany: "Optimizely",
   currentCompanyUrl: "https://optimizely.com",
   description:
@@ -69,7 +66,7 @@ export const siteConfig: SiteConfig = {
   },
   resume: "/files/Rasel_Hasan_Resume_Exp_2.5yrs+.pdf",
   heroAboutMe:
-    "Software Engineer focused on front-end — shipping production React, Next.js & TypeScript at scale for products used by **500+ companies**.",
+    "Focused on front-end — shipping production React, Next.js & TypeScript at scale for products used by **500+ companies**.",
   aboutMe:
     "I'm a Software Engineer with strong focus on **front-end development**, experienced in building scalable and maintainable web applications. I've a proven track record of delivering high-quality software products using modern technologies like React, Next.js, and TypeScript. I'm passionate about solving complex real-world problems.",
   stats: [
@@ -127,7 +124,6 @@ export const siteConfig: SiteConfig = {
       company: "Vivasoft Limited",
       title: "Software Engineer L-II",
       dateRange: "Jan 2025 — Present",
-      logo: "V",
       current: true,
       bullets: [
         "Built dynamic PDF generation module for Xsolla — real-time, country-specific gaming data.",
@@ -139,7 +135,6 @@ export const siteConfig: SiteConfig = {
       company: "Vivasoft Limited",
       title: "Software Engineer L-I",
       dateRange: "Jul 2023 — Dec 2024",
-      logo: "V",
       bullets: [
         "Built HRM SaaS used by **500+ companies** in micro front-end architecture (Pi-HR).",
         "Boosted PDF rendering by 60% using web workers with React-PDF for Resume Builder.",
@@ -151,7 +146,6 @@ export const siteConfig: SiteConfig = {
       company: "Samsung R&D Institute Bangladesh",
       title: "Software Engineering Intern",
       dateRange: "Oct 2022 — Feb 2023",
-      logo: "S",
       bullets: [
         "Worked on Samsung Notes app to enhance performance.",
         "Contributed to Samsung Smart Ring research.",

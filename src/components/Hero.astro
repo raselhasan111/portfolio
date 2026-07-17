@@ -25,7 +25,6 @@ import RichText from "./RichText.astro";
     <div class="reveal" style="--d: 200ms">
       <p class="hero-tag">
         <span class="accent">{siteConfig.title}</span>
-        <span class="hero-tag-level">({siteConfig.currentLevel})</span>
         <span class="hero-tag-at">@</span>
         <a
           class="accent hero-tag-company"
@@ -59,7 +58,7 @@ import RichText from "./RichText.astro";
           </svg>
           Download Resume
         </a>
-        <a href="#contact" class="btn btn-ghost">
+        <a href={`mailto:${siteConfig.social.email}`} class="btn btn-ghost">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="m22 2-7 20-4-9-9-4 20-7Z" />
             <path d="m22 2-11 11" />
@@ -72,7 +71,6 @@ import RichText from "./RichText.astro";
     <div class="reveal" style="--d: 380ms">
       <div class="hero-meta">
         <span><span class="m-key">~/</span> <span class="m-val">{siteConfig.location}</span></span>
-        <span><span class="m-key">role</span> <span class="m-val">{siteConfig.title}</span></span>
         <span><span class="m-key">tz</span> <span class="m-val">{siteConfig.timezone}</span></span>
       </div>
     </div>

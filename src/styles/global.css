@@ -72,6 +72,9 @@ html {
   text-rendering: optimizeLegibility;
   font-family: var(--font-sans);
   scroll-behavior: smooth;
+  /* body-only overflow-x doesn't stop viewport panning; clip also blocks programmatic scroll */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -481,7 +484,6 @@ main { position: relative; z-index: 1; }
   font-weight: 400;
 }
 .hero-tag .hero-tag-at { color: var(--muted); margin: 0 6px; }
-.hero-tag .hero-tag-level { color: var(--muted); margin-left: 6px; font-size: 0.85em; }
 .hero-tag .hero-tag-company { text-decoration: none; }
 .hero-tag .hero-tag-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -1064,16 +1066,6 @@ main { position: relative; z-index: 1; }
   margin-bottom: 14px;
 }
 .exp-headline { display: flex; align-items: center; gap: 14px; }
-.exp-logo {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: var(--surface-hi);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 13px;
-  color: var(--fg);
-  flex-shrink: 0;
-}
 .exp-titles h3 {
   margin: 0;
   font-size: 18px;
@@ -1098,17 +1090,20 @@ main { position: relative; z-index: 1; }
 }
 .exp-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; list-style: none; padding: 0; }
 .exp-list-item {
-  display: flex; gap: 12px;
+  /* not flex: bullets contain inline <strong>, which flex would split into gapped items */
+  position: relative;
+  padding-left: 26px;
   font-size: 14px;
   color: var(--fg-2);
   line-height: 1.5;
 }
 .exp-list-item::before {
   content: "→";
+  position: absolute;
+  left: 0;
+  top: 1px;
   font-family: var(--font-mono);
   color: var(--accent-2);
-  flex-shrink: 0;
-  margin-top: 1px;
 }
 
 /* ---------- Education ---------- */
