@@ -64,7 +64,7 @@ export const siteConfig: SiteConfig = {
     linkedin: "https://linkedin.com/in/raselhasan11",
     github: "https://github.com/raselhasan111",
   },
-  resume: "/files/Rasel_Hasan_Resume_Exp_2.5yrs+.pdf",
+  resume: "/files/Rasel_Hasan_Resume_Exp_3yrs+.pdf",
   heroAboutMe:
     "Focused on front-end — shipping production React, Next.js & TypeScript at scale for products used by **500+ companies**.",
   aboutMe:
