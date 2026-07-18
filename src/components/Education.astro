@@ -18,9 +18,16 @@ const edu = siteConfig.education[0];
 
     {edu && (
       <div class="reveal">
-        <div class="edu-card">
+        <div class={`edu-card ${edu.gpa ? "" : "no-side"}`}>
           <div class="edu-info">
-            <h3 class="h-block" style="font-size: clamp(22px, 2.4vw, 30px)">{edu.degree}</h3>
+            {edu.subject ? (
+              <>
+                <div class="edu-degree-chip">{edu.degree}</div>
+                <h3 class="h-block" style="font-size: clamp(22px, 2.4vw, 30px)">{edu.subject}</h3>
+              </>
+            ) : (
+              <h3 class="h-block" style="font-size: clamp(22px, 2.4vw, 30px)">{edu.degree}</h3>
+            )}
             <div class="school">{edu.school}</div>
             <div class="date">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
