@@ -1122,6 +1122,7 @@ main { position: relative; z-index: 1; }
   overflow: hidden;
   box-shadow: var(--shadow-card);
 }
+.edu-card.no-side { grid-template-columns: 1fr; }
 @media (max-width: 820px) {
   .edu-card { grid-template-columns: 1fr; padding: 28px; }
 }
@@ -1136,6 +1137,20 @@ main { position: relative; z-index: 1; }
 
 .edu-info { position: relative; }
 .edu-info .h-block { margin-bottom: 6px; }
+.edu-degree-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+  background: color-mix(in oklch, var(--accent-3) 12%, transparent);
+  border: 1px solid color-mix(in oklch, var(--accent-3) 35%, transparent);
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin-bottom: 14px;
+}
 .edu-info .school {
   font-family: var(--font-mono); font-size: 13px;
   color: var(--accent-3);
