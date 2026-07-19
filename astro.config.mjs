@@ -10,5 +10,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // /og is a hidden social-card template (see scripts/generate-og.mjs)
+      filter: (page) => !page.endsWith('/og/'),
+    }),
+  ],
 });
