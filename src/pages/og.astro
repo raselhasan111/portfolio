@@ -1,0 +1,202 @@
+---
+// Hidden 1200×630 social-card route — screenshotted by scripts/generate-og.mjs
+// to produce public/og-image.png. Excluded from the sitemap (astro.config.mjs)
+// and marked noindex; it is never linked from the site itself.
+import { siteConfig } from "../config";
+import "../styles/global.css";
+
+const siteHost = Astro.site?.host ?? "";
+---
+
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG card — {siteConfig.name}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- no bg-noise here: the per-pixel texture ~doubles the PNG size for an
+         invisible-at-card-size effect, and WhatsApp skips previews on heavy images -->
+    <div class="bg-grid"></div>
+    <div class="bg-aurora"></div>
+
+    <div class="og-card">
+      <div class="og-left">
+        <span class="live-badge">
+          <span class="pulse"></span>
+          {siteConfig.availability}
+        </span>
+
+        <h1 class="og-name">{siteConfig.name}</h1>
+
+        <p class="og-title">
+          <span class="grad-text">{siteConfig.title}</span>
+          <span class="at">@</span>
+          <span class="grad-text">{siteConfig.currentCompany}</span>
+        </p>
+
+        <p class="og-meta">
+          <span class="k">~/</span>
+          {siteConfig.location}
+          <span class="sep"></span>
+          <span class="k">tz</span>
+          {siteConfig.timezone}
+          {siteHost && (
+            <>
+              <span class="sep"></span>
+              <span class="url">{siteHost}</span>
+            </>
+          )}
+        </p>
+      </div>
+
+      <div class="og-right">
+        <div class="orb-stage">
+          <div class="orb-glow"></div>
+          <div class="orb-ring outer"></div>
+          <div class="orb-ring"></div>
+          <div class="orb-image-wrap">
+            <img src={siteConfig.profileImage} alt={siteConfig.name} />
+          </div>
+
+          <div class="tech-chip og-c1" title="React" style="color: #61dafb">
+            <svg viewBox="0 0 32 32" width="26" height="26" aria-label="React">
+              <circle cx="16" cy="16" r="2.2" fill="currentColor" />
+              <g fill="none" stroke="currentColor" stroke-width="1.4">
+                <ellipse cx="16" cy="16" rx="11" ry="4.2" />
+                <ellipse cx="16" cy="16" rx="11" ry="4.2" transform="rotate(60 16 16)" />
+                <ellipse cx="16" cy="16" rx="11" ry="4.2" transform="rotate(120 16 16)" />
+              </g>
+            </svg>
+          </div>
+
+          <div class="tech-chip og-c2" title="TypeScript" style="color: #3178c6">
+            <svg viewBox="0 0 32 32" width="26" height="26" aria-label="TypeScript">
+              <rect x="3" y="3" width="26" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+              <text x="16" y="22" text-anchor="middle" font-size="13" font-family="ui-monospace,monospace" font-weight="700" fill="currentColor">TS</text>
+            </svg>
+          </div>
+
+          <div class="tech-chip og-c3" title="Tailwind" style="color: #38bdf8">
+            <svg viewBox="0 0 32 32" width="26" height="26" aria-label="Tailwind">
+              <path d="M8 18c2-4 5-5 8-3 1.5 1 2.5 2 4 2 2 0 3-1 4-3-2 4-5 5-8 3-1.5-1-2.5-2-4-2-2 0-3 1-4 3z" fill="currentColor" />
+              <path d="M4 12c2-4 5-5 8-3 1.5 1 2.5 2 4 2 2 0 3-1 4-3-2 4-5 5-8 3-1.5-1-2.5-2-4-2-2 0-3 1-4 3z" fill="currentColor" opacity="0.6" />
+            </svg>
+          </div>
+
+          <span class="code-symbol og-sym">{`{}`}</span>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+
+      .og-card {
+        position: relative;
+        z-index: 1;
+        width: 1200px;
+        height: 630px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 96px 0 84px;
+      }
+
+      .og-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        max-width: 660px;
+      }
+
+      .live-badge {
+        margin-bottom: 0;
+        font-size: 14px;
+      }
+
+      .og-name {
+        margin: 0;
+        font-size: 96px;
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+        font-weight: 500;
+        white-space: nowrap;
+        background: linear-gradient(
+          120deg,
+          var(--fg) 0%,
+          color-mix(in oklch, var(--accent-2) 90%, var(--fg)) 50%,
+          color-mix(in oklch, var(--accent-3) 90%, var(--fg)) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .og-title {
+        margin: 0;
+        font-size: 32px;
+        letter-spacing: -0.01em;
+        color: var(--fg-2);
+      }
+      .og-title .grad-text {
+        background: linear-gradient(
+          120deg,
+          var(--fg) 0%,
+          color-mix(in oklch, var(--accent-2) 90%, var(--fg)) 50%,
+          color-mix(in oklch, var(--accent-3) 90%, var(--fg)) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .og-title .at {
+        color: var(--muted);
+        margin: 0 10px;
+      }
+
+      .og-meta {
+        margin: 10px 0 0;
+        font-family: var(--font-mono);
+        font-size: 16px;
+        color: var(--fg-2);
+      }
+      .og-meta .k {
+        color: var(--muted-2);
+      }
+      .og-meta .sep {
+        display: inline-block;
+        width: 26px;
+      }
+      .og-meta .url {
+        color: var(--accent-3);
+      }
+
+      .og-right .orb-stage {
+        width: 400px;
+      }
+
+      .tech-chip.og-c1 { top: -6px; left: 6px; }
+      .tech-chip.og-c2 { top: 44%; right: -10px; }
+      .tech-chip.og-c3 { bottom: 4px; left: 60px; }
+
+      .code-symbol.og-sym {
+        bottom: 2%;
+        right: 8%;
+        font-size: 26px;
+      }
+    </style>
+  </body>
+</html>
