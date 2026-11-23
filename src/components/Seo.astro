@@ -18,7 +18,6 @@ const OG_IMAGE_VERSION = 2;
 const ogImageUrl = (site ? site + ogImageRel : ogImageRel) + `?v=${OG_IMAGE_VERSION}`;
 const ogImageAlt = `${siteConfig.name} — ${siteConfig.title} at ${siteConfig.currentCompany}`;
 const faviconHref = assetPath('favicon.svg');
-const accent = siteConfig.accentColor;
 const social = siteConfig.social || {};
 const sameAs: string[] = [social.github, social.linkedin].filter(Boolean) as string[];
 const personJsonLd = {
@@ -51,7 +50,6 @@ const websiteJsonLd = {
 <meta name="description" content={desc} />
 <meta name="robots" content="index,follow" />
 <link rel="canonical" href={canonical} />
-<meta name="theme-color" content={accent} />
 <meta name="author" content={siteConfig.name} />
 <!-- Open Graph -->
 <meta property="fb:app_id" content="836044232167877" />

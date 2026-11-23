@@ -11,16 +11,62 @@ import Seo from "../components/Seo.astro";
 import "../styles/global.css";
 ---
 
-<html
-  lang="en"
-  data-theme="dark"
-  data-palette="aurora"
-  data-character="default"
-  data-atmosphere="lively"
->
+<html lang="en" data-theme="dark">
   <head>
     <Seo />
     <meta name="theme-color" content="#07080b" />
+    <script is:inline>
+      // Theme: decided before first paint so there is no flash and no overwrite.
+      // A saved choice wins; otherwise follow the visitor's system setting.
+      document.documentElement.classList.add("js");
+      (function () {
+        var KEY = "portfolio-theme";
+        var BG = { dark: "#07080b", light: "#f7f7f5" };
+        var root = document.documentElement;
+        var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
+
+        function saved() {
+          try {
+            var v = localStorage.getItem(KEY);
+            return v === "light" || v === "dark" ? v : null;
+          } catch (_) {
+            return null;
+          }
+        }
+        function system() {
+          return mq && mq.matches ? "light" : "dark";
+        }
+        function apply(t) {
+          root.setAttribute("data-theme", t);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", BG[t]);
+          window.dispatchEvent(new CustomEvent("themechange", { detail: t }));
+        }
+
+        // Single entry point for every theme control on the page.
+        window.portfolioTheme = {
+          get: function () {
+            return root.getAttribute("data-theme") === "light" ? "light" : "dark";
+          },
+          set: function (t) {
+            if (t !== "light" && t !== "dark") return;
+            try { localStorage.setItem(KEY, t); } catch (_) {}
+            apply(t);
+          },
+        };
+
+        apply(saved() || system());
+
+        // Without a saved choice, keep following the system setting live.
+        if (mq) {
+          var onChange = function () {
+            if (!saved()) apply(system());
+          };
+          if (mq.addEventListener) mq.addEventListener("change", onChange);
+          else if (mq.addListener) mq.addListener(onChange);
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,18 +75,15 @@ import "../styles/global.css";
     />
   </head>
   <body>
-    <div id="scroll-progress" class="scroll-progress"></div>
-    <div id="cursor-glow" class="cursor-glow"></div>
-    <div class="bg-grid"></div>
-    <div class="bg-aurora"></div>
-    <div class="bg-noise"></div>
+    <a class="skip-link" href="#top">Skip to content</a>
+    <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
 
     <Header />
 
-    <main id="top">
+    <main id="top" tabindex="-1">
       <Hero />
-      <About />
       <Projects />
+      <About />
       <Experience />
       <Education />
     </main>
@@ -49,14 +92,6 @@ import "../styles/global.css";
     <CommandPalette />
 
     <script is:inline>
-      // ---------- Theme (persist + restore) ----------
-      (function () {
-        try {
-          const t = localStorage.getItem("portfolio-theme") || "dark";
-          document.documentElement.setAttribute("data-theme", t);
-        } catch (_) {}
-      })();
-
       // ---------- Scroll progress ----------
       (function () {
         const bar = document.getElementById("scroll-progress");
@@ -69,25 +104,6 @@ import "../styles/global.css";
         };
         onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
-      })();
-
-      // ---------- Cursor glow ----------
-      (function () {
-        const el = document.getElementById("cursor-glow");
-        if (!el) return;
-        let shown = false;
-        window.addEventListener("mousemove", (e) => {
-          el.style.transform =
-            "translate(" + e.clientX + "px, " + e.clientY + "px) translate(-50%, -50%)";
-          if (!shown) {
-            el.classList.add("show");
-            shown = true;
-          }
-        });
-        window.addEventListener("mouseleave", () => {
-          el.classList.remove("show");
-          shown = false;
-        });
       })();
 
       // ---------- Reveal on scroll ----------

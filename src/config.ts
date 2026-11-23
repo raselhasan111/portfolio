@@ -16,6 +16,8 @@ interface SiteConfig {
   };
   resume: string;
   heroAboutMe: string;
+  /** Short credentials shown under the hero intro. Supports **bold**. */
+  highlights: string[];
   aboutMe: string;
   stats: { value: string; unit: string; label: string }[];
   skills: string[];
@@ -26,11 +28,15 @@ interface SiteConfig {
     category: string;
     description: string;
     link: string;
+    /** Text for the project link. Defaults to the link's domain, e.g. "xsolla.com". */
+    linkLabel?: string;
     sourceLink?: string;
     skills: string[];
   }[];
   experience: {
     company: string;
+    /** Company website. When set, the company name in Experience links to it. */
+    companyUrl?: string;
     title: string;
     dateRange: string;
     current?: boolean;
@@ -51,11 +57,11 @@ interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   name: "Rasel Hasan",
-  title: "Software Engineer",
+  title: "Demo Engineer",
   currentCompany: "Optimizely",
   currentCompanyUrl: "https://optimizely.com",
   description:
-    "Rasel Hasan — Software Engineer at Optimizely building customer-facing demos of Optimizely One, the AI-powered platform behind 10,000+ brands like Nike & Zoom.",
+    "Rasel Hasan — Demo Engineer at Optimizely building customer-facing demos of Optimizely One, the AI-powered platform behind 10,000+ brands like Nike & Zoom.",
   profileImage: "/images/profile.jpg",
   location: "Dhaka, Bangladesh",
   availability: "Engineering customer-facing product demos",
@@ -68,6 +74,11 @@ export const siteConfig: SiteConfig = {
   resume: "/files/Rasel_Hasan_Resume_Exp_3yrs+.pdf",
   heroAboutMe:
     "I engineer customer-facing demos of **Optimizely One** — the AI-powered platform behind **10,000+ brands** like Nike, PayPal, and Zoom — turning real customer use cases into working software.",
+  highlights: [
+    "Champion, **NSU Inter-University Hackathon 2020**",
+    "ICPC Asia Dhaka Regionals, **2020 & 2021**",
+    "**1600+** problems solved · CodeChef max **1907**",
+  ],
   aboutMe:
     "At Vivasoft I built frontend that had to hold up in production — schema-based form architecture, PDF pipelines on web workers, micro front-ends serving **500+ companies**. Now I'm a Demo Engineer at Optimizely, where the customer is in the room: I turn real use cases into working demos of **Optimizely One**, partnering daily with Product, Engineering, and GTM. That seat is deliberate — I'm building a product mindset from the engineering side, growing toward leadership by owning outcomes, not just code.",
   stats: [
@@ -125,6 +136,7 @@ export const siteConfig: SiteConfig = {
   experience: [
     {
       company: "Optimizely",
+      companyUrl: "https://optimizely.com",
       title: "Demo Engineer II",
       dateRange: "May 2026 — Present",
       current: true,
@@ -137,6 +149,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       company: "Vivasoft Limited",
+      companyUrl: "https://vivasoftltd.com",
       title: "Software Engineer L-II",
       dateRange: "Jan 2025 — Feb 2026",
       bullets: [
@@ -148,6 +161,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       company: "Vivasoft Limited",
+      companyUrl: "https://vivasoftltd.com",
       title: "Software Engineer L-I",
       dateRange: "Jul 2023 — Dec 2024",
       bullets: [
@@ -158,6 +172,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       company: "Samsung R&D Institute Bangladesh",
+      companyUrl: "https://research.samsung.com/srbd",
       title: "Software Engineering Intern",
       dateRange: "Oct 2022 — Feb 2023",
       bullets: [

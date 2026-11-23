@@ -7,9 +7,8 @@ import RichText from "./RichText.astro";
   <div class="wrap">
     <div class="section-head">
       <div class="reveal">
-        <span class="h-section">/ experience</span>
-        <h2 class="h-block" style="margin-top: 14px">
-          Career so far, <em style="font-style: normal; color: var(--accent-3)">in motion.</em>
+        <h2 class="h-block">
+          Career so far, in motion.
         </h2>
       </div>
     </div>
@@ -26,7 +25,15 @@ import RichText from "./RichText.astro";
                     <div class="exp-titles">
                       <h3>{x.title}</h3>
                       <div class="sub">
-                        <span class="company">{x.company}</span> · full-time
+                        {x.companyUrl ? (
+                          <a class="company" href={x.companyUrl} target="_blank" rel="noopener noreferrer">
+                            {x.company}
+                            <span class="sr-only">(opens in a new tab)</span>
+                          </a>
+                        ) : (
+                          <span class="company">{x.company}</span>
+                        )}{" "}
+                        · full-time
                       </div>
                     </div>
                   </div>
