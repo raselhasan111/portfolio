@@ -6,28 +6,14 @@ import RichText from "./RichText.astro";
 <section class="hero wrap">
   <div class="hero-left">
     <div class="reveal" style="--d: 0ms">
-      <span class="live-badge">
-        <span class="pulse"></span>
-        <RichText text={siteConfig.availability} />
-      </span>
+      <h1 class="hero-name">{siteConfig.name}</h1>
     </div>
 
-    <div class="reveal" style="--d: 60ms">
-      <p class="greet"><span class="wave">👋</span> Hello, I'm</p>
-    </div>
-
-    <div class="reveal" style="--d: 120ms">
-      <h1 class="hero-name">
-        <span class="grad">{siteConfig.name}</span>
-      </h1>
-    </div>
-
-    <div class="reveal" style="--d: 200ms">
+    <div class="reveal" style="--d: 80ms">
       <p class="hero-tag">
-        <span class="accent">{siteConfig.title}</span>
-        <span class="hero-tag-at">@</span>
+        {siteConfig.title} at
         <a
-          class="accent hero-tag-company"
+          class="hero-tag-company"
           href={siteConfig.currentCompanyUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -37,103 +23,60 @@ import RichText from "./RichText.astro";
       </p>
     </div>
 
-    <div class="reveal" style="--d: 260ms">
+    <div class="reveal" style="--d: 140ms">
       <RichText as="p" class="hero-sub" text={siteConfig.heroAboutMe} />
     </div>
 
-    <div class="reveal" style="--d: 320ms">
+    {
+      siteConfig.highlights.length > 0 && (
+        <div class="reveal" style="--d: 200ms">
+          <ul class="hero-highlights" aria-label="Highlights">
+            {siteConfig.highlights.map((h) => (
+              <li>
+                <RichText text={h} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    <div class="reveal" style="--d: 260ms">
       <div class="hero-ctas">
         <a href="#projects" class="btn btn-primary">
-          View Work
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 17 17 7" />
-            <path d="M8 7h9v9" />
+          View work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v14" />
+            <path d="m6 13 6 6 6-6" />
           </svg>
         </a>
         <a href={siteConfig.resume} class="btn btn-ghost" download>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3v12" />
             <path d="m7 10 5 5 5-5" />
             <path d="M5 21h14" />
           </svg>
-          Download Resume
+          Resume (PDF)
         </a>
-        <a href={`mailto:${siteConfig.social.email}`} class="btn btn-ghost">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <path d="m3 7 9 6 9-6" />
-          </svg>
-          Contact
-        </a>
+        <a href={`mailto:${siteConfig.social.email}`} class="hero-email">Email me</a>
       </div>
     </div>
 
-    <div class="reveal" style="--d: 380ms">
-      <div class="hero-meta">
-        <span><span class="m-key">~/</span> <span class="m-val">{siteConfig.location}</span></span>
-        <span><span class="m-key">tz</span> <span class="m-val">{siteConfig.timezone}</span></span>
-      </div>
+    <div class="reveal" style="--d: 300ms">
+      <p class="hero-meta">{siteConfig.location} · {siteConfig.timezone}</p>
     </div>
   </div>
 
-  <div class="reveal hero-right" style="--d: 300ms">
-    <div class="orb-stage">
-      <div class="orb-glow"></div>
-      <div class="orb-ring outer"></div>
-      <div class="orb-ring"></div>
-      <div class="orb-image-wrap">
-        <img src={siteConfig.profileImage} alt={siteConfig.name} />
-      </div>
-
-      <div class="tech-chip tc-1" title="React" style="color: #61dafb">
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="React">
-          <circle cx="16" cy="16" r="2.2" fill="currentColor" />
-          <g fill="none" stroke="currentColor" stroke-width="1.4">
-            <ellipse cx="16" cy="16" rx="11" ry="4.2" />
-            <ellipse cx="16" cy="16" rx="11" ry="4.2" transform="rotate(60 16 16)" />
-            <ellipse cx="16" cy="16" rx="11" ry="4.2" transform="rotate(120 16 16)" />
-          </g>
-        </svg>
-      </div>
-
-      <div class="tech-chip tc-2" title="Next.js" style="color: var(--fg)">
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="Next.js">
-          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="1.4" />
-          <path d="M10 9.5 V22.5 M22 9.5 V18 M10 9.5 L22 22.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" />
-        </svg>
-      </div>
-
-      <div class="tech-chip tc-3" title="TypeScript" style="color: #3178c6">
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="TypeScript">
-          <rect x="3" y="3" width="26" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
-          <text x="16" y="22" text-anchor="middle" font-size="13" font-family="ui-monospace,monospace" font-weight="700" fill="currentColor">TS</text>
-        </svg>
-      </div>
-
-      <div class="tech-chip tc-4" title="AWS" style="color: #ff9900">
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="AWS">
-          <path d="M5 18c2 4 8 6 14 4M27 16c0 4-3 6-7 6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-          <text x="16" y="14" text-anchor="middle" font-size="9" font-family="ui-monospace,monospace" font-weight="700" fill="currentColor">AWS</text>
-        </svg>
-      </div>
-
-      <div class="tech-chip tc-5" title="AI" style="color: var(--accent-2)">
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="AI">
-          <path d="M16 4 L22 10 L28 16 L22 22 L16 28 L10 22 L4 16 L10 10 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
-          <circle cx="16" cy="16" r="3" fill="currentColor" />
-        </svg>
-      </div>
-
-      <div class="tech-chip tc-6" title="Tailwind" style="color: #38bdf8">
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-label="Tailwind">
-          <path d="M8 18c2-4 5-5 8-3 1.5 1 2.5 2 4 2 2 0 3-1 4-3-2 4-5 5-8 3-1.5-1-2.5-2-4-2-2 0-3 1-4 3z" fill="currentColor" />
-          <path d="M4 12c2-4 5-5 8-3 1.5 1 2.5 2 4 2 2 0 3-1 4-3-2 4-5 5-8 3-1.5-1-2.5-2-4-2-2 0-3 1-4 3z" fill="currentColor" opacity="0.6" />
-        </svg>
-      </div>
-
-      <span class="code-symbol cs-1">&lt;/&gt;</span>
-      <span class="code-symbol cs-2">{`{}`}</span>
-      <span class="code-symbol cs-3">()</span>
-    </div>
+  <div class="reveal hero-right" style="--d: 200ms">
+    <figure class="hero-photo">
+      <img
+        src={siteConfig.profileImage}
+        alt={`Portrait of ${siteConfig.name}`}
+        width="3024"
+        height="4032"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </figure>
   </div>
 </section>

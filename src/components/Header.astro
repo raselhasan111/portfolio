@@ -4,15 +4,15 @@ import { siteConfig } from "../config";
 const firstName = siteConfig.name.split(" ")[0];
 
 const sections = [
-  { id: "about", label: "About" },
   { id: "projects", label: "Projects" },
+  { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
   { id: "education", label: "Education" },
 ];
 ---
 
 <div class="nav-shell">
-  <nav id="nav" class="nav">
+  <nav id="nav" class="nav" aria-label="Main">
     <a class="nav-logo" href="#top" aria-label="Home">
       <span class="lt">&lt;</span><span class="name">{firstName}</span><span class="lt">/&gt;</span>
     </a>
@@ -29,25 +29,25 @@ const sections = [
     </div>
 
     <div class="nav-end">
-      <button id="cmd-open" class="cmd-btn" aria-label="Command palette">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <button id="cmd-open" type="button" class="cmd-btn" aria-haspopup="dialog" aria-controls="cmdk" aria-keyshortcuts="Meta+K Control+K">
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
         </svg>
-        <span>Search</span>
-        <span class="kbd">⌘K</span>
+        <span>Jump to</span>
+        <kbd class="kbd" id="cmd-kbd" aria-hidden="true">⌘K</kbd>
       </button>
-      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
-        <svg id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <button id="theme-toggle" type="button" class="icon-btn" aria-label="Switch theme">
+        <svg aria-hidden="true" id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
         </svg>
-        <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <svg aria-hidden="true" id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:none">
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
         </svg>
       </button>
-      <button id="burger-open" class="icon-btn nav-burger" aria-label="Open menu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <button id="burger-open" type="button" class="icon-btn nav-burger" aria-label="Open menu" aria-haspopup="dialog" aria-controls="mobile-menu" aria-expanded="false">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 7h16M4 12h16M4 17h16" />
         </svg>
       </button>
@@ -55,15 +55,17 @@ const sections = [
   </nav>
 </div>
 
-<div id="mobile-menu" class="mobile-menu">
-  <button id="burger-close" class="icon-btn" aria-label="Close menu" style="position:absolute;top:22px;right:22px">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+<dialog id="mobile-menu" class="mobile-menu" aria-label="Menu">
+  <button id="burger-close" type="button" class="icon-btn mobile-menu-close" aria-label="Close menu">
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 6 18 18M18 6 6 18" />
     </svg>
   </button>
-  {sections.map((s) => <a href={`#${s.id}`} class="mm-link">{s.label}</a>)}
-  <a href="#contact" class="mm-link" style="color: var(--accent-2)">Contact →</a>
-</div>
+  <nav class="mobile-menu-links" aria-label="Sections">
+    {sections.map((s) => <a href={`#${s.id}`} class="mm-link">{s.label}</a>)}
+    <a href="#contact" class="mm-link mm-contact">Contact</a>
+  </nav>
+</dialog>
 
 <script is:inline>
   (function () {
@@ -79,7 +81,7 @@ const sections = [
 
   // Active section scroll-spy
   (function () {
-    const ids = ["about", "projects", "experience", "education"];
+    const ids = ["projects", "about", "experience", "education"];
     const links = document.querySelectorAll(".nav-link");
     const onScroll = () => {
       const y = window.scrollY + window.innerHeight * 0.35;
@@ -90,8 +92,10 @@ const sections = [
         if (el.offsetTop <= y) cur = id;
       }
       links.forEach((a) => {
-        if (a.getAttribute("data-section") === cur) a.classList.add("active");
-        else a.classList.remove("active");
+        const on = a.getAttribute("data-section") === cur;
+        a.classList.toggle("active", on);
+        if (on) a.setAttribute("aria-current", "location");
+        else a.removeAttribute("aria-current");
       });
     };
     onScroll();
@@ -103,40 +107,64 @@ const sections = [
     const btn = document.getElementById("theme-toggle");
     const iconDark = document.getElementById("theme-icon-dark");
     const iconLight = document.getElementById("theme-icon-light");
-    const apply = (t) => {
-      document.documentElement.setAttribute("data-theme", t);
-      try { localStorage.setItem("portfolio-theme", t); } catch (_) {}
-      if (t === "dark") {
-        iconDark.style.display = "";
-        iconLight.style.display = "none";
-      } else {
-        iconDark.style.display = "none";
-        iconLight.style.display = "";
-      }
+    const theme = window.portfolioTheme;
+    if (!btn || !iconDark || !iconLight || !theme) return;
+    const sync = (t) => {
+      const dark = t === "dark";
+      iconDark.style.display = dark ? "" : "none";
+      iconLight.style.display = dark ? "none" : "";
+      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
     };
-    apply(document.documentElement.getAttribute("data-theme") || "dark");
-    btn?.addEventListener("click", () => {
-      const cur = document.documentElement.getAttribute("data-theme") || "dark";
-      apply(cur === "dark" ? "light" : "dark");
+    sync(theme.get());
+    window.addEventListener("themechange", (e) => sync(e.detail));
+    btn.addEventListener("click", () => {
+      theme.set(theme.get() === "dark" ? "light" : "dark");
     });
   })();
 
-  // Mobile menu
+  // Mobile menu: native modal dialog (focus kept inside, Esc closes, page behind is inert)
   (function () {
     const menu = document.getElementById("mobile-menu");
-    const open = document.getElementById("burger-open");
-    const close = document.getElementById("burger-close");
-    open?.addEventListener("click", () => menu?.classList.add("open"));
-    close?.addEventListener("click", () => menu?.classList.remove("open"));
-    document.querySelectorAll(".mm-link").forEach((a) => {
-      a.addEventListener("click", () => menu?.classList.remove("open"));
+    const openBtn = document.getElementById("burger-open");
+    const closeBtn = document.getElementById("burger-close");
+    if (!menu || !openBtn || typeof menu.showModal !== "function") return;
+
+    let returnFocus = true;
+    const open = () => {
+      if (menu.open) return;
+      returnFocus = true;
+      menu.showModal();
+      openBtn.setAttribute("aria-expanded", "true");
+    };
+    const close = (restore) => {
+      returnFocus = restore !== false;
+      if (menu.open) menu.close();
+    };
+
+    menu.addEventListener("close", () => {
+      openBtn.setAttribute("aria-expanded", "false");
+      if (returnFocus) openBtn.focus();
     });
+    openBtn.addEventListener("click", open);
+    closeBtn?.addEventListener("click", () => close());
+    // Following a link moves focus to that section instead of back to the burger.
+    menu.querySelectorAll(".mm-link").forEach((a) => {
+      a.addEventListener("click", () => close(false));
+    });
+    // Widening past the mobile breakpoint hides the burger; don't leave a modal open.
+    const wide = window.matchMedia("(min-width: 821px)");
+    const onWide = () => { if (wide.matches) close(false); };
+    if (wide.addEventListener) wide.addEventListener("change", onWide);
+    else if (wide.addListener) wide.addListener(onWide);
   })();
 
-  // Command palette trigger
+  // Command palette trigger (+ show Ctrl K instead of ⌘K off Apple platforms)
   (function () {
     document.getElementById("cmd-open")?.addEventListener("click", () => {
       window.dispatchEvent(new CustomEvent("cmdk:toggle"));
     });
+    const kbd = document.getElementById("cmd-kbd");
+    const plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+    if (kbd && !/mac|iphone|ipad|ipod/i.test(plat)) kbd.textContent = "Ctrl K";
   })();
 </script>

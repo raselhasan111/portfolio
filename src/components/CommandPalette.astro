@@ -2,8 +2,8 @@
 import { siteConfig } from "../config";
 
 const items = [
-  { section: "Navigate", id: "go-about",   label: "Go to About",      icon: "user",       action: "nav:#about" },
   { section: "Navigate", id: "go-proj",    label: "Go to Projects",   icon: "code",       action: "nav:#projects" },
+  { section: "Navigate", id: "go-about",   label: "Go to About",      icon: "user",       action: "nav:#about" },
   { section: "Navigate", id: "go-exp",     label: "Go to Experience", icon: "briefcase",  action: "nav:#experience" },
   { section: "Navigate", id: "go-edu",     label: "Go to Education",  icon: "school",     action: "nav:#education" },
   { section: "Navigate", id: "go-top",     label: "Back to top",      icon: "scroll",     action: "top" },
@@ -14,173 +14,208 @@ const items = [
   { section: "Theme",    id: "th-dark",    label: "Dark mode",        icon: "moon",       action: "theme:dark" },
   { section: "Theme",    id: "th-light",   label: "Light mode",       icon: "sun",        action: "theme:light" },
 ];
+
+const sections = Array.from(new Set(items.map((it) => it.section)));
+const sectionId = (name: string) => `cmdk-sec-${name.toLowerCase()}`;
 ---
 
-<div id="cmdk-overlay" class="cmdk-overlay">
-  <div id="cmdk" class="cmdk">
+<dialog id="cmdk" class="cmdk-dialog" aria-label="Jump to">
+  <div class="cmdk">
     <div class="cmdk-input">
-      <span class="ic">
+      <span class="ic" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
         </svg>
       </span>
-      <input id="cmdk-input" autocomplete="off" spellcheck="false" placeholder="Type a command or search…" />
-      <span class="kbd">ESC</span>
+      <input
+        id="cmdk-input"
+        type="text"
+        role="combobox"
+        aria-label="Jump to a section, link or theme"
+        aria-expanded="true"
+        aria-controls="cmdk-list"
+        aria-autocomplete="list"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Jump to a section, link or theme…"
+      />
+      <kbd class="kbd" aria-hidden="true">ESC</kbd>
     </div>
 
-    <div id="cmdk-list" class="cmdk-list">
+    <div id="cmdk-list" class="cmdk-list" role="listbox" aria-label="Actions">
       {
-        items.map((it, i) => (
-          <div
-            class="cmdk-item"
-            data-idx={i}
-            data-section={it.section}
-            data-label={it.label.toLowerCase()}
-            data-action={it.action}
-          >
-            <span class="ic">
-              {it.icon === "user" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
-              )}
-              {it.icon === "code" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6" /></svg>
-              )}
-              {it.icon === "briefcase" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-              )}
-              {it.icon === "school" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5Z" /><path d="M6 10v6c3 2 9 2 12 0v-6" /></svg>
-              )}
-              {it.icon === "scroll" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
-              )}
-              {it.icon === "github" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.9.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.55-3.87-1.55-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.76 2.7 1.25 3.36.95.1-.74.4-1.25.73-1.54-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.3-.51-1.5.11-3.12 0 0 .97-.31 3.18 1.18a11.04 11.04 0 0 1 5.8 0c2.21-1.5 3.18-1.18 3.18-1.18.62 1.62.23 2.82.11 3.12.74.81 1.18 1.84 1.18 3.1 0 4.42-2.7 5.39-5.27 5.67.42.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z" /></svg>
-              )}
-              {it.icon === "linkedin" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.65-1.85 3.39-1.85 3.62 0 4.29 2.38 4.29 5.48v6.26ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45Z" /></svg>
-              )}
-              {it.icon === "mail" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
-              )}
-              {it.icon === "download" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></svg>
-              )}
-              {it.icon === "moon" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
-              )}
-              {it.icon === "sun" && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
-              )}
-            </span>
-            <span class="label">{it.label}</span>
-            {it.meta && <span class="meta">{it.meta}</span>}
+        sections.map((sec) => (
+          <div class="cmdk-group" role="group" aria-labelledby={sectionId(sec)} data-group={sec}>
+            <div class="cmdk-section" id={sectionId(sec)}>{sec}</div>
+            {items
+              .filter((it) => it.section === sec)
+              .map((it) => (
+                <div
+                  class="cmdk-item"
+                  role="option"
+                  id={`cmdk-opt-${it.id}`}
+                  aria-selected="false"
+                  data-label={it.label.toLowerCase()}
+                  data-action={it.action}
+                >
+                  <span class="ic" aria-hidden="true">
+                  {it.icon === "user" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>
+                  )}
+                  {it.icon === "code" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6" /></svg>
+                  )}
+                  {it.icon === "briefcase" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                  )}
+                  {it.icon === "school" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5Z" /><path d="M6 10v6c3 2 9 2 12 0v-6" /></svg>
+                  )}
+                  {it.icon === "scroll" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+                  )}
+                  {it.icon === "github" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.9.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.55-3.87-1.55-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.76 2.7 1.25 3.36.95.1-.74.4-1.25.73-1.54-2.55-.3-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.3-.51-1.5.11-3.12 0 0 .97-.31 3.18 1.18a11.04 11.04 0 0 1 5.8 0c2.21-1.5 3.18-1.18 3.18-1.18.62 1.62.23 2.82.11 3.12.74.81 1.18 1.84 1.18 3.1 0 4.42-2.7 5.39-5.27 5.67.42.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z" /></svg>
+                  )}
+                  {it.icon === "linkedin" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.65-1.85 3.39-1.85 3.62 0 4.29 2.38 4.29 5.48v6.26ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45Z" /></svg>
+                  )}
+                  {it.icon === "mail" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+                  )}
+                  {it.icon === "download" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></svg>
+                  )}
+                  {it.icon === "moon" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
+                  )}
+                  {it.icon === "sun" && (
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+                  )}
+                </span>
+                  <span class="label">{it.label}</span>
+                  {it.meta && <span class="meta" aria-hidden="true">{it.meta}</span>}
+                </div>
+              ))}
           </div>
         ))
       }
-      <div id="cmdk-empty" class="cmdk-empty" style="display:none">No results</div>
     </div>
+    <p id="cmdk-empty" class="cmdk-empty" hidden>
+      Nothing matches. Try “projects”, “email” or “resume”.
+    </p>
 
-    <div class="cmdk-footer">
+    <div class="cmdk-footer" aria-hidden="true">
       <div class="keys">
-        <span><span class="kbd">↑</span><span class="kbd">↓</span> navigate</span>
-        <span><span class="kbd">↵</span> select</span>
+        <span><kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd> navigate</span>
+        <span><kbd class="kbd">↵</kbd> select</span>
       </div>
-      <span id="cmdk-count">{items.length} actions</span>
+      <span id="cmdk-count">{items.length} results</span>
     </div>
+    <p id="cmdk-status" class="sr-only" aria-live="polite"></p>
   </div>
-</div>
+</dialog>
 
 <script is:inline>
   (function () {
-    const overlay = document.getElementById("cmdk-overlay");
+    const dialog = document.getElementById("cmdk");
     const input = document.getElementById("cmdk-input");
     const list = document.getElementById("cmdk-list");
     const empty = document.getElementById("cmdk-empty");
     const count = document.getElementById("cmdk-count");
-    if (!overlay || !input || !list) return;
+    const status = document.getElementById("cmdk-status");
+    if (!dialog || !input || !list || typeof dialog.showModal !== "function") return;
 
     const items = Array.from(list.querySelectorAll(".cmdk-item"));
+    const groups = Array.from(list.querySelectorAll(".cmdk-group"));
     let visible = items.slice();
     let sel = 0;
-
-    function rebuildSections() {
-      // Remove old section headers
-      list.querySelectorAll(".cmdk-section").forEach((n) => n.remove());
-      let lastSection = null;
-      visible.forEach((it) => {
-        const sec = it.getAttribute("data-section");
-        if (sec !== lastSection) {
-          const head = document.createElement("div");
-          head.className = "cmdk-section";
-          head.textContent = sec;
-          list.insertBefore(head, it);
-          lastSection = sec;
-        }
-      });
-    }
+    let opener = null;
 
     function applyFilter(q) {
       const term = q.trim().toLowerCase();
-      visible = items.filter((it) =>
-        !term || it.getAttribute("data-label").includes(term)
-      );
-      items.forEach((it) => (it.style.display = "none"));
-      visible.forEach((it) => (it.style.display = ""));
-      rebuildSections();
-      empty.style.display = visible.length === 0 ? "" : "none";
-      count.textContent = visible.length + " actions";
+      visible = items.filter((it) => !term || it.dataset.label.includes(term));
+      items.forEach((it) => (it.hidden = !visible.includes(it)));
+      groups.forEach((g) => (g.hidden = !g.querySelector(".cmdk-item:not([hidden])")));
+      empty.hidden = visible.length !== 0;
+      const label = visible.length === 1 ? "1 result" : visible.length + " results";
+      count.textContent = label;
+      status.textContent = term ? label : "";
       sel = 0;
       highlight();
     }
 
     function highlight() {
-      items.forEach((it) => it.classList.remove("selected"));
-      if (visible[sel]) visible[sel].classList.add("selected");
-      if (visible[sel]) visible[sel].scrollIntoView({ block: "nearest" });
+      items.forEach((it) => {
+        it.classList.remove("selected");
+        it.setAttribute("aria-selected", "false");
+      });
+      const cur = visible[sel];
+      if (cur) {
+        cur.classList.add("selected");
+        cur.setAttribute("aria-selected", "true");
+        input.setAttribute("aria-activedescendant", cur.id);
+        cur.scrollIntoView({ block: "nearest" });
+      } else {
+        input.removeAttribute("aria-activedescendant");
+      }
     }
 
     function open() {
-      overlay.classList.add("open");
+      if (dialog.open) return;
+      opener = document.activeElement;
       input.value = "";
       applyFilter("");
-      setTimeout(() => input.focus(), 50);
+      dialog.showModal();
+      input.focus();
     }
 
     function close() {
-      overlay.classList.remove("open");
+      if (dialog.open) dialog.close();
     }
+
+    // Esc fires "cancel" then "close"; either way focus goes back to where it was.
+    dialog.addEventListener("close", () => {
+      if (opener && typeof opener.focus === "function" && document.contains(opener)) opener.focus();
+      opener = null;
+    });
 
     function runAction(action) {
       if (!action) return;
       if (action.startsWith("nav:")) location.hash = action.slice(4);
       else if (action === "top") window.scrollTo({ top: 0, behavior: "smooth" });
-      else if (action.startsWith("open:")) window.open(action.slice(5), "_blank", "noopener");
+      else if (action.startsWith("open:")) window.open(action.slice(5), "_blank", "noopener,noreferrer");
       else if (action.startsWith("mail:")) window.location.href = "mailto:" + action.slice(5);
-      else if (action.startsWith("download:")) window.open(action.slice(9), "_blank");
-      else if (action.startsWith("theme:")) {
-        const t = action.slice(6);
-        document.documentElement.setAttribute("data-theme", t);
-        try { localStorage.setItem("portfolio-theme", t); } catch (_) {}
-      }
+      else if (action.startsWith("download:")) {
+        // Same behaviour as the page's resume buttons: download, don't open a tab.
+        const a = document.createElement("a");
+        a.href = action.slice(9);
+        a.download = "";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else if (action.startsWith("theme:")) window.portfolioTheme?.set(action.slice(6));
     }
 
-    window.addEventListener("cmdk:toggle", () => {
-      if (overlay.classList.contains("open")) close();
-      else open();
-    });
+    function choose(it) {
+      const action = it.dataset.action;
+      // Close first so focus returns before navigation moves the page.
+      close();
+      runAction(action);
+    }
 
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) close();
+    window.addEventListener("cmdk:toggle", () => (dialog.open ? close() : open()));
+
+    // Click on the dimmed area outside the panel closes it.
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
     });
 
     input.addEventListener("input", () => applyFilter(input.value));
 
-    window.addEventListener("keydown", (e) => {
-      if (!overlay.classList.contains("open")) return;
-      if (e.key === "Escape") { e.preventDefault(); close(); }
-      else if (e.key === "ArrowDown") {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
         sel = Math.min(visible.length - 1, sel + 1);
         highlight();
@@ -188,25 +223,26 @@ const items = [
         e.preventDefault();
         sel = Math.max(0, sel - 1);
         highlight();
+      } else if (e.key === "Home" && visible.length) {
+        e.preventDefault();
+        sel = 0;
+        highlight();
+      } else if (e.key === "End" && visible.length) {
+        e.preventDefault();
+        sel = visible.length - 1;
+        highlight();
       } else if (e.key === "Enter") {
         e.preventDefault();
-        const it = visible[sel];
-        if (it) {
-          runAction(it.getAttribute("data-action"));
-          close();
-        }
+        if (visible[sel]) choose(visible[sel]);
       }
     });
 
     items.forEach((it) => {
-      it.addEventListener("mouseenter", () => {
+      it.addEventListener("mousemove", () => {
         const idx = visible.indexOf(it);
-        if (idx >= 0) { sel = idx; highlight(); }
+        if (idx >= 0 && idx !== sel) { sel = idx; highlight(); }
       });
-      it.addEventListener("click", () => {
-        runAction(it.getAttribute("data-action"));
-        close();
-      });
+      it.addEventListener("click", () => choose(it));
     });
   })();
 </script>

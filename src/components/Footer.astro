@@ -3,58 +3,58 @@ import { siteConfig } from "../config";
 
 const year = new Date().getFullYear();
 
-const sections = [
-  { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "education", label: "Education" },
+const links = [
+  { label: "LinkedIn", href: siteConfig.social.linkedin },
+  { label: "GitHub", href: siteConfig.social.github },
+  ...(siteConfig.social.twitter ? [{ label: "Twitter", href: siteConfig.social.twitter }] : []),
 ];
 ---
 
 <footer id="contact" class="footer">
   <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <div class="terminal">
-          <div class="terminal-bar">
-            <div class="pv-dots"><span /><span /><span /></div>
-            <span>~/portfolio — zsh</span>
-          </div>
-          <div class="terminal-body">
-            <div class="terminal-line"><span class="out">built with Astro + TypeScript</span></div>
-            <div class="terminal-line"><span class="out">deployed on Vercel</span></div>
-            <div class="terminal-line terminal-cursor"><span style="color: var(--muted)">let's-build-something</span></div>
-          </div>
+    <div class="contact">
+      <div class="reveal">
+        <h2 class="h-block">Let's <em class="h-em">talk.</em></h2>
+        <p class="contact-lead">
+          Email is the fastest way to reach me. My resume has the full picture.
+        </p>
+        <div class="contact-ctas">
+          <a href={`mailto:${siteConfig.social.email}`} class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+            {siteConfig.social.email}
+          </a>
+          <a href={siteConfig.resume} class="btn btn-ghost" download>
+            Resume (PDF)
+          </a>
         </div>
       </div>
 
-      <div class="footer-col">
-        <h4>Sitemap</h4>
+      <nav class="footer-col reveal" aria-labelledby="elsewhere-heading" style="--d: 80ms">
+        <h3 id="elsewhere-heading">Elsewhere</h3>
         <ul>
-          {sections.map((s) => <li><a href={`#${s.id}`}>{s.label}</a></li>)}
+          {
+            links.map((l) => (
+              <li>
+                <a href={l.href} target="_blank" rel="noopener noreferrer">
+                  {l.label}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17 17 7" />
+                    <path d="M8 7h9v9" />
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
         </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <ul>
-          <li><a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
-          <li><a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-          {siteConfig.social.twitter && (
-            <li><a href={siteConfig.social.twitter} target="_blank" rel="noopener noreferrer">Twitter</a></li>
-          )}
-          <li><a href={`mailto:${siteConfig.social.email}`}>Email</a></li>
-          <li><a href={siteConfig.resume} download>Resume.pdf</a></li>
-        </ul>
-      </div>
-
+      </nav>
     </div>
 
     <div class="footer-bot">
-      <div class="signature">
-        <span style="color: var(--accent)">●</span> {siteConfig.name}
-      </div>
-      <div>© {year} — crafted with care</div>
+      <span>© {year} {siteConfig.name}</span>
+      <a href="#top">Back to top</a>
     </div>
   </div>
 </footer>
